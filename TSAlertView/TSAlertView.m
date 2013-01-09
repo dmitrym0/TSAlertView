@@ -69,7 +69,7 @@
 @property (nonatomic, readonly) UILabel* titleLabel;
 @property (nonatomic, readonly) UILabel* messageLabel;
 @property (nonatomic, readonly) UITextView* messageTextView;
-@property (nonatomic, readonly) UIProgressView* activityIndicator;
+@property (nonatomic, readonly) UIActivityIndicatorView* activityIndicator;
 - (void) TSAlertView_commonInit;
 - (void) releaseWindow: (int) buttonIndex;
 - (void) pulse;
@@ -343,8 +343,8 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 		_titleLabel.font = [UIFont boldSystemFontOfSize: 18];
 		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.textColor = [UIColor whiteColor];
-		_titleLabel.textAlignment = UITextAlignmentCenter;
-		_titleLabel.lineBreakMode = UILineBreakModeWordWrap;
+		_titleLabel.textAlignment = NSTextAlignmentCenter;
+		_titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 		_titleLabel.numberOfLines = 0;
 	}
 	
@@ -359,8 +359,8 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 		_messageLabel.font = [UIFont systemFontOfSize: 16];
 		_messageLabel.backgroundColor = [UIColor clearColor];
 		_messageLabel.textColor = [UIColor whiteColor];
-		_messageLabel.textAlignment = UITextAlignmentCenter;
-		_messageLabel.lineBreakMode = UILineBreakModeWordWrap;
+		_messageLabel.textAlignment = NSTextAlignmentCenter;
+		_messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
 		_messageLabel.numberOfLines = 0;
 	}
 	
@@ -384,7 +384,7 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 		_messageTextView.font = [UIFont systemFontOfSize: 16];
 		_messageTextView.backgroundColor = [UIColor whiteColor];
 		_messageTextView.textColor = [UIColor darkTextColor];
-		_messageTextView.textAlignment = UITextAlignmentLeft;
+		_messageTextView.textAlignment = NSTextAlignmentLeft;
 		_messageTextView.bounces = YES;
 		_messageTextView.alwaysBounceVertical = YES;
 		_messageTextView.layer.cornerRadius = 5;
