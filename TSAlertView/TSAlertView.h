@@ -50,6 +50,7 @@ typedef enum
 	UITextView*				_messageTextView;
 	UIImageView*			_messageTextViewMaskImageView;
 	UITextField*			_inputTextField;
+    UIActivityIndicatorView* _activityIndicator;
 	NSMutableArray*			_buttons;
 }
 @property(nonatomic, copy) NSString *title;
@@ -67,6 +68,7 @@ typedef enum
 @property(nonatomic, retain) UIImage* backgroundImage;
 @property(nonatomic, assign) TSAlertViewStyle style;
 @property(nonatomic, readonly) UITextField* inputTextField;
+@property(nonatomic, assign) BOOL showSpinner;
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
 - (NSInteger)addButtonWithTitle:(NSString *)title;

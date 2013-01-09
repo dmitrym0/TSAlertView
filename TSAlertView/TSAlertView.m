@@ -69,6 +69,7 @@
 @property (nonatomic, readonly) UILabel* titleLabel;
 @property (nonatomic, readonly) UILabel* messageLabel;
 @property (nonatomic, readonly) UITextView* messageTextView;
+@property (nonatomic, readonly) UIProgressView* activityIndicator;
 - (void) TSAlertView_commonInit;
 - (void) releaseWindow: (int) buttonIndex;
 - (void) pulse;
@@ -215,6 +216,7 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 	[_messageLabel release];
 	[_messageTextView release];
 	[_messageTextViewMaskImageView release];
+    [_activityIndicator release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver: self ];
 	
@@ -365,6 +367,14 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 	return _messageLabel;
 }
 
+- (UIActivityIndicatorView*) activityIndicator
+{
+    if (_activityIndicator == nil) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    }
+    return _activityIndicator;
+
+}
 - (UITextView*) messageTextView
 {
 	if ( _messageTextView == nil )
@@ -637,10 +647,12 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 	CGSize  messageViewSize = [self messageLabelSize];
 	CGSize  inputTextFieldSize = [self inputTextFieldSize];
 	CGSize  buttonsAreaSize = stacked ? [self buttonsAreaSize_Stacked] : [self buttonsAreaSize_SideBySide];
-	
+	CGSize  spinnerSize = self.showSpinner ? self.activityIndicator.bounds.size : CGSizeZero;
+    
 	CGFloat inputRowHeight = self.style == TSAlertViewStyleInput ? inputTextFieldSize.height + kTSAlertView_RowMargin : 0;
 	
-	CGFloat totalHeight = kTSAlertView_TopMargin + titleLabelSize.height + kTSAlertView_RowMargin + messageViewSize.height + inputRowHeight + kTSAlertView_RowMargin + buttonsAreaSize.height + kTSAlertView_BottomMargin;
+	CGFloat totalHeight = kTSAlertView_TopMargin + titleLabelSize.height + kTSAlertView_RowMargin + messageViewSize.height + inputRowHeight + kTSAlertView_RowMargin +  spinnerSize.height + 3 * kTSAlertView_RowMargin + buttonsAreaSize.height + kTSAlertView_BottomMargin;
+
 	
 	if ( totalHeight > self.maxHeight )
 	{
@@ -695,6 +707,16 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 			y += inputTextFieldSize.height + kTSAlertView_RowMargin;
 		}
 		
+        // activity indicator
+        if (self.showSpinner) {
+            self.activityIndicator.center = CGPointMake(self.bounds.size.width / 2, y + self.activityIndicator.frame.size.height / 2 + kTSAlertView_RowMargin);
+            [self.activityIndicator startAnimating];
+            
+            y += self.activityIndicator.frame.size.height + 3 * kTSAlertView_RowMargin;
+            [self addSubview:self.activityIndicator];
+            
+        }
+        
 		// buttons
 		CGFloat buttonHeight = [[self.buttons objectAtIndex:0] sizeThatFits: CGSizeZero].height;
 		if ( stacked )
@@ -721,7 +743,7 @@ const CGFloat kTSAlertView_ColumnMargin = 10.0;
 		
 	}
 	
-	return CGSizeMake( self.width, totalHeight );
+	return CGSizeMake( self.width, totalHeight);
 }
 
 - (CGSize) titleLabelSize

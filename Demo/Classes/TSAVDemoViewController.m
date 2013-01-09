@@ -62,6 +62,8 @@
 	
 	av.width = [_widthTextField.text floatValue];
 	av.maxHeight = [_maxHeightTextField.text floatValue];
+    
+    av.showSpinner = YES;
 
 	[av show];
 }
